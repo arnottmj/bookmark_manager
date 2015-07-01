@@ -1,12 +1,14 @@
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/flash'
+require './app/data_mapper_setup'
 
 class BookmarkManager < Sinatra::Base
 
   enable :sessions
   register Sinatra::Flash
   set :session_secret, 'super secret'
+  use Rack::MethodOverride
 
   get '/' do
     redirect '/users/new'
@@ -59,6 +61,12 @@ class BookmarkManager < Sinatra::Base
   get '/sessions/new' do
     erb :'sessions/new'
   end
+
+  delete '/sessions' do
+    session.clear
+    erb :'sessions/goodbye'
+  end
+
 
   post '/sessions' do
     user = User.authenticate(email: params[:email], password: params[:password])
