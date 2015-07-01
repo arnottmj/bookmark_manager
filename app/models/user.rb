@@ -21,7 +21,14 @@ class User
   end
 
   def self.authenticate(email:, password:) # clearly there is an issue here.. but let's wait until we have a test that targets it
-    User.first(email: email)
+    user = User.first(email: email)
+
+    if user && BCrypt::Password.new(user.password_digest) == password
+      # return this user
+      user
+    else
+      nil
+    end
   end
 
 end

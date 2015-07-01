@@ -11,6 +11,11 @@ describe User do
     expect(authenticated_user).to eq user
   end
 
+  it 'does not authenticate when given an incorrect password' do
+    expect(User.authenticate(email: user.email, password: 'wrong_stupid_password')).to be_nil
+  end
+
+
   def user_params
     {email: 'test@test.com',
      password: 'secret1234',
