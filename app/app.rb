@@ -51,8 +51,7 @@ class BookmarkManager < Sinatra::Base
   helpers do
 
     def current_user
-      id ||= session[:user_id]
-      User.first(id: id)
+      @user ||= User.first(id: session[:user_id]) if session[:user_id]
     end
 
   end
