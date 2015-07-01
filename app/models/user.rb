@@ -1,5 +1,6 @@
 require 'data_mapper'
 require 'bcrypt'
+require 'dm-validations'
 
 class User
   include DataMapper::Resource
@@ -8,9 +9,10 @@ class User
   attr_accessor :password_confirmation
 
   validates_confirmation_of :password
+  validates_uniqueness_of :email 
 
   property :id, Serial
-  property :email, String
+  property :email, String, unique: true
   property :password_digest, Text
 
   def password=(password)
