@@ -10,17 +10,17 @@ feature 'User sign up' do
   # However, we are currently driving everything through
   # feature tests and we want to keep this example simple.
 
-  before(:each) { user = User.new(user_params))}
+  before(:each) { @user = User.new(user_params)}
 
   scenario 'I can sign up as a new user' do
-    expect { sign_up user }.to change(User, :count).by(1)
+    expect { sign_up @user }.to change(User, :count).by(1)
     expect(page).to have_content('Welcome, alice@example.com')
     expect(User.first.email).to eq('alice@example.com')
   end
 
   scenario 'with a password that does not match' do
-    user.password_confirmation = 'wrong'
-    expect { sign_up user }.not_to change(User, :count)
+    @user.password_confirmation = 'wrong'
+    expect { sign_up @user }.not_to change(User, :count)
     expect(current_path).to eq('/users') # current_path is a helper provided by Capybara
     expect(page).to have_content('Sorry, your passwords do not match')
   end
