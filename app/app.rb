@@ -1,4 +1,3 @@
-# require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/flash'
 require './app/data_mapper_setup'
@@ -41,7 +40,6 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/users/new' do
-    @user = User.new
     erb :'users/new'
   end
 

@@ -1,5 +1,3 @@
-# require 'spec_helper'
-
 feature 'Adding tags' do
 
   scenario 'I can add a single tag to a new link' do

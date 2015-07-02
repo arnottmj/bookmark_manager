@@ -1,5 +1,3 @@
-# require 'spec_helper'
-
 feature 'User sign in' do
 
   let(:user) do

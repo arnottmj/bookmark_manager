@@ -1,5 +1,3 @@
-# require 'spec_helper'
-
 feature 'User signs out' do
 
   before(:each) do
