@@ -1,4 +1,4 @@
-require 'sinatra'
+# require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/flash'
 require './app/data_mapper_setup'

@@ -5,8 +5,8 @@ require File.join(File.dirname(__FILE__), '..', 'app/app.rb')
 require 'capybara/rspec'
 require 'database_cleaner'
 
-require './app/data_mapper_setup'
-require './app/app'
+# require './app/data_mapper_setup'
+# require './app/app'
 
 require './spec/features/helpers/session'
 
