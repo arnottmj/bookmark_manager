@@ -7,6 +7,7 @@ ruby '2.2.2'
   gem 'dm-postgres-adapter'
   gem 'sinatra'
   gem 'sinatra-flash'
+  gem 'mailgun-ruby', '~>1.0.3', require: 'mailgun'
 
 group :test do
 

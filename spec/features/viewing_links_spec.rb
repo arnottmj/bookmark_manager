@@ -1,5 +1,3 @@
-# require 'spec_helper'
-
 feature 'Viewing links' do
 
     before(:each) do

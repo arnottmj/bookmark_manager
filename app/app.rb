@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/flash'
 require './app/data_mapper_setup'
+require './lib/send_reset_email'
 
 class BookmarkManager < Sinatra::Base
 
@@ -56,6 +57,43 @@ class BookmarkManager < Sinatra::Base
     end
   end
 
+  get '/password_reset' do
+    erb :'users/password_reset'
+  end
+
+  post '/password_reset' do
+    user = User.first(email: params[:email])
+    if user # find the record of the user that's recovering the password.
+      @email = params[:email]
+      user.password_token = generate_password_token # Here we've got a hard-coded password recovery token.
+      user.save
+      client = Mailgun::Client.new ENV['MAILGUN_KEY']
+      send_email = SendResetEmail.new(user, client)
+      send_email.call
+    end
+    erb :'users/password_reset'
+  end
+
+  get '/users/password_reset/:token' do
+    @token = params[:token] if User.first(password_token: params[:token])
+    erb :'users/password_reset'
+  end
+
+  post '/users/password_reset/:token' do
+    @token = params[:token]
+    user = User.first(password_token: params[:token])
+    user.update(:password => params[:password],
+                :password_confirmation => params[:password_confirmation])
+    if user.save
+      user.password_token = nil
+      user.save
+      redirect to('/links')
+    else
+      flash.now[:errors] = user.errors.full_messages
+      erb :'users/pasword_reset'
+    end
+  end
+
   get '/sessions/new' do
     erb :'sessions/new'
   end
@@ -83,6 +121,8 @@ class BookmarkManager < Sinatra::Base
       @user ||= User.first(id: session[:user_id]) if session[:user_id]
     end
 
+    def generate_password_token
+      (0...50).map { ('A'..'Z').to_a[rand(26)] }.join
+    end
   end
-
 end
