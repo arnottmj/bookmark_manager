@@ -3,6 +3,7 @@ require 'sinatra/flash'
 require './app/data_mapper_setup'
 require './lib/send_reset_email'
 
+
 class BookmarkManager < Sinatra::Base
   enable :sessions
   register Sinatra::Flash
